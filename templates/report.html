@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaDL · Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      }
+
+      body {
+        background: #0f172a;
+        color: #ffffff;
+        padding: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 1000px;
+        max-width: 100%;
+        margin: auto;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        padding: 30px 35px 25px;
+        border-radius: 32px;
+        border: 1px solid rgba(79, 70, 229, 0.25);
+        box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.8),
+          0 0 0 1px rgba(79, 70, 229, 0.1);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 18px;
+        border-bottom: 3px solid #4f46e5;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 30px;
+        font-weight: 700;
+        color: #4f46e5;
+        letter-spacing: -0.5px;
+      }
+
+      .logo i {
+        font-size: 34px;
+        background: linear-gradient(145deg, #6366f1, #8b5cf6);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        filter: drop-shadow(0 0 6px #4f46e555);
+      }
+
+      .logo span {
+        background: rgba(79, 70, 229, 0.15);
+        padding: 2px 14px;
+        border-radius: 40px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #a5b4fc;
+        border: 1px solid rgba(79, 70, 229, 0.2);
+      }
+
+      .info {
+        text-align: right;
+        line-height: 1.8;
+        color: #cbd5e1;
+        background: rgba(30, 41, 59, 0.4);
+        padding: 8px 22px;
+        border-radius: 60px;
+        border: 1px solid rgba(79, 70, 229, 0.1);
+        backdrop-filter: blur(2px);
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .info i {
+        color: #818cf8;
+        margin-left: 4px;
+      }
+
+      .info .badge-date {
+        background: #1e293b;
+        padding: 2px 16px;
+        border-radius: 30px;
+        color: #e2e8f0;
+        border: 1px solid #334155;
+        font-weight: 500;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.5);
+      }
+
+      .table thead {
+        background: linear-gradient(145deg, #4f46e5, #6366f1);
+      }
+
+      .table th {
+        padding: 16px 14px;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: #f1f5f9;
+        text-transform: uppercase;
+        font-size: 13px;
+        border-bottom: 2px solid #818cf8;
+      }
+
+      .table th i {
+        margin-left: 8px;
+        opacity: 0.7;
+      }
+
+      .table td {
+        padding: 15px 14px;
+        text-align: center;
+        border-bottom: 1px solid #273449;
+        color: #e2e8f0;
+        font-weight: 400;
+        font-size: 15px;
+        background: transparent;
+      }
+
+      .table tbody tr:nth-child(even) {
+        background: #172033;
+      }
+
+      .table tbody tr:nth-child(odd) {
+        background: #111b2e;
+      }
+
+      .table tbody tr:hover {
+        background: #1e2a44;
+        border-left: 3px solid #818cf8;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 4px 16px;
+        border-radius: 40px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        background: rgba(79, 70, 229, 0.15);
+        color: #a5b4fc;
+        border: 1px solid rgba(79, 70, 229, 0.15);
+      }
+
+      .status-badge.ok {
+        background: rgba(16, 185, 129, 0.12);
+        color: #6ee7b7;
+        border-color: rgba(16, 185, 129, 0.2);
+      }
+
+      .status-badge.pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #fcd34d;
+        border-color: rgba(245, 158, 11, 0.15);
+      }
+
+      .status-badge.failed {
+        background: rgba(239, 68, 68, 0.1);
+        color: #fca5a5;
+        border-color: rgba(239, 68, 68, 0.15);
+      }
+
+      .status-badge.processing {
+        background: rgba(59, 130, 246, 0.1);
+        color: #93c5fd;
+        border-color: rgba(59, 130, 246, 0.15);
+      }
+
+      .footer {
+        margin-top: 32px;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 13px;
+        border-top: 1px solid #273449;
+        padding-top: 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .footer .left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: #64748b;
+      }
+
+      .footer .left i {
+        color: #4f46e5;
+        opacity: 0.5;
+      }
+
+      .footer .right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #64748b;
+      }
+
+      .footer .right i {
+        color: #818cf8;
+        opacity: 0.4;
+      }
+
+      @media (max-width: 720px) {
+        body {
+          padding: 16px;
+        }
+        .container {
+          padding: 20px 16px;
+          border-radius: 24px;
+        }
+        .header {
+          flex-direction: column;
+          align-items: stretch;
+          text-align: center;
+        }
+        .info {
+          justify-content: center;
+          flex-wrap: wrap;
+          text-align: center;
+        }
+        .logo {
+          justify-content: center;
+          font-size: 26px;
+        }
+        .table th,
+        .table td {
+          padding: 12px 8px;
+          font-size: 13px;
+        }
+        .status-badge {
+          font-size: 10px;
+          padding: 3px 12px;
+        }
+        .footer {
+          flex-direction: column;
+          gap: 6px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .table thead {
+          display: none;
+        }
+        .table,
+        .table tbody,
+        .table tr,
+        .table td {
+          display: block;
+          width: 100%;
+        }
+        .table tr {
+          margin-bottom: 12px;
+          border-radius: 16px;
+          background: #172033 !important;
+          border: 1px solid #273449;
+          padding: 8px 0;
+        }
+        .table td {
+          border: none;
+          text-align: right;
+          padding: 8px 18px;
+          position: relative;
+          background: transparent !important;
+        }
+        .table td::before {
+          content: attr(data-label);
+          font-weight: 600;
+          color: #94a3b8;
+          display: inline-block;
+          width: 80px;
+          margin-left: 12px;
+        }
+        .table td:first-child::before {
+          content: "🆔 ID";
+        }
+        .table td:nth-child(2)::before {
+          content: "📝 Name";
+        }
+        .table td:nth-child(3)::before {
+          content: "📅 Date";
+        }
+        .table td:nth-child(4)::before {
+          content: "⏱ Time";
+        }
+        .table td:nth-child(5)::before {
+          content: "📊 Status";
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo">
+          <i class="fas fa-headphones-alt"></i>
+          NovaDL
+          <span>v2.0</span>
+        </div>
+        <div class="info">
+          <div><b>Version :</b> {{ version }}</div>
+
+          <div><b>Date :</b> {{ report_date }}</div>
+
+          <div><b>Time :</b> {{ report_time }}</div>
+        </div>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th><i class="fas fa-barcode"></i> ID</th>
+            <th><i class="fas fa-music"></i> Name</th>
+            <th><i class="fas fa-genre"></i> Genre</th>
+            <th><i class="fas fa-calendar-day"></i> Date</th>
+            <th><i class="fas fa-clock"></i> Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for music in musics %}
+
+          <tr>
+            <td>{{ music.id }}</td>
+
+            <td>{{ music.name|truncate(20, True) }}</td>
+
+            <td>{{ music.genre }}</td>
+
+            <td>{{ music.date }}</td>
+
+            <td>{{ music.time }}</td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="footer">
+        <div class="left">
+          <i class="fas fa-download"></i> {{ report_date }} tracks · Last update
+          <i
+            class="fas fa-circle"
+            style="font-size: 6px; color: #4f46e5; opacity: 0.5"
+          ></i>
+          <span style="color: #64748b"></span>
+        </div>
+        <div class="right">
+          <i class="fas fa-shield-alt"></i> NovaDL v{{version}}
+          <i class="fas fa-arrow-right" style="opacity: 0.3"></i>
+          <span style="color: #475569">Music Downloader</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
